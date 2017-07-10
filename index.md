@@ -1,230 +1,224 @@
-PDR: Laboratory 1: Introduction to C++
-======================================
+PDR: Laboratory 2: Linked Lists
+===============================
 
 [Go up to the Labs table of contents page](../index.html)
 
-### Objective ###
+### Objective: ###
 
-This is laboratory is intended to get you up to speed quickly with both C++ and Unix.
+This laboratory introduces you to some advanced class development in C++, creating and using iterators, manipulating pointers, and linked data structures.  It also addresses some issues involving testing and software development.
 
-### Background ###
+### Background: ###
 
-Every week we will have a lab meeting.  Each lab will consist of three parts: a pre-lab (to be completed by Tuesday at the due time listed on the [lab due dates](../../uva/labduedates.html) page, an in-lab (activity to be done during lab), and a post-lab.  The pre-lab will typically also include a tutorial.  Parts of all three of these may be required to turned in.  The due dates are all listed on the [lab due dates](../../uva/labduedates.html) page. This will all be discussed in this lab.
+The linked list is a basic data structure from which one can implement stacks, queues, sets, and many other data structures.  Lists may be singly- or doubly-linked.  In this lab we will implement a doubly-linked list.
 
-### Reading(s) ###
+### Reading(s): ###
 
-1. [Tutorial 1: Introduction to UNIX](../../tutorials/01-intro-unix/index.html)
-2. Optional: online sources as posted on the [Readings page](../../docs/readings.html)
+1. Readings on [Readings](../../docs/readings.html) page.
+2. [Tutorial 2: LLDB](../../tutorials/02-lldb/index.html) ***OR*** [Tutorial 2: GDB](../../tutorials/02-gdb/index.html); see below as to which one to choose.
+3. For the in-lab, some articles on debugging
+
+### Debugger Choice ###
+
+In this lab, you will have to make a choice as to which debugger to use; this will affect which tutorial you carry out.  You can choose the gdb debugger (you would then complete [Tutorial 2: GDB](../../tutorials/02-gdb/index.html)) or the lldb debugger (you would then complete [Tutorial 2: LLDB](../../tutorials/02-lldb/index.html)).  The source code provided for each tutorial is exactly the same, and the deliverable (i.e., what you turn in) is likewise the exact same.
+
+The lldb debugger is preferred, as it was built with the `clang++` compiler that we are using.  ***HOWEVER***, it does not work with the Ubuntu VirtualBox image.  You can see [here](http://llvm.org/bugs/show_bug.cgi?id=20446) for the bug tracker about this issue.  So if you are using the provided Ubuntu VirtualBox image, then you ***MUST*** choose gdb.
+
+Ultimately, either one is fine to choose; they were designed to be very similar and have essentially identical functionality.  If you have only one installed on your machine (which may be the case for those using Mac OS X), then choose that one.  Both are installed on the lab computers.  So it's not all that critical a decision.  Just remember which one you choose, as you will end up using that debugger throughout this course.  And if you ever have to switch between them, you can use our [GDB vs LLDB](../../docs/gdb_vs_lldb.html) page to see the (relatively few) commands that are different between the two.
+
+So this is a low stress choice.  Pick one and don't worry about making the "right" or "wrong" decision.
 
 Procedure
 ---------
 
 ### Pre-lab ###
-1. If desired, the alternative readings are available on the [Readings page](../../docs/readings.html)
-2. Complete [Tutorial 1: Introduction to UNIX](../../tutorials/01-intro-unix/index.html)
-3. Write the xToN.cpp file, as described in the pre-lab section. Since you are unfamiliar with the submission system, you should read through the in-lab section of the document, which describes the submission process.  Submit the xToN.cpp file.
-4. Examine the Object life-cycle code ([lifecycle.cpp](lifecycle.cpp.html) ([src](lifecycle.cpp))).  You may not understand everything in this program by the beginning of lab, but you should by the end of next week.  We will be using this program during the in-lab activity.
-5. Read how to reboot into Linux for the in-lab.  Although the TAs will be able to help you, you should still have an idea how to do it.
-6. The due date for this lab is listed on the [lab due dates](../../uva/labduedates.html) page -- see the in-lab section for more details about submission deadlines.
-7. Files to download: [lifecycle.cpp](lifecycle.cpp.html) ([src](lifecycle.cpp))
-8. Files to submit: xToN.cpp
+
+1. Consider one of the online alternative readings shown on the [Readings](../../docs/readings.html) page.
+2. Implement the three classes as described below: ListNode, TestListNode, and ListItr.  You should have most, if not all, of the code working ***before*** coming to lab.  TAs will be available to help in lab if you still have questions.  Note that it is okay to not have the code perfectly working prior to lab -- for the pre-lab grade, we are going to be looking to see if you have made significant progress, not that it is fully working (that's the post-lab).
+3. If there is a particular method that is causing you a lot of trouble (i.e. you can't get it working), don't spend inordinate amounts of time on it -- move on, and come back to that one during the in-lab.
+4. **Making the implementation phase less frustrating:** develop in small chunks, then **test/debug incrementally.  It is much easier to debug this way!** (And also less frustrating and confusing.) Here is a sample process for implementing ListNode.cpp:
+    1. Implement the ListNode constructor in ListNode.cpp
+    2. Write a short test harness, TestListNode.cpp, which has a main().  The body of main should test the ListNode constructor. In other words, create some ListNodes in main() using the constructor.
+    3. Build and run the test program you just wrote to see if it produces the results you expect.  Some items you will want to check are the initialization of the next and previous pointers and the initial value of value
+    4. Use this same general process for List and for ListItr.  For List and ListItr, implement the member functions one at a time and test.  To do this, you will still need to provide "dummy" versions of the other member functions in your .cpp file as placeholders so that the code will build.  **You will need to create a list of test cases to use to test your classes.** The TAs may ask you to test more cases during lab.
+5. Read through the remainder of this document before coming to lab.  Also read the tutorial on Unix debugging, as we will be using that during the in-lab.
+6. Make sure you submit all 7 files listed below!  Your code will not compile unless all 7 files are submitted.  Also, if your code does not compile, and you cannot figure out why, comment out the erroneous code until it does compile.  And make sure you have the right file name capitalization!
+7. Files to download: [List.h](List.h.html) ([src](List.h)), [ListNode.h](ListNode.h.html) ([src](ListNode.h)), [ListItr.h](ListItr.h.html) ([src](ListItr.h)), [ListTest.cpp](ListTest.cpp.html) ([src](ListTest.cpp))
+8. Files to submit: ListNode.h/cpp, ListItr.h/cpp, List.h/cpp, ListTest.cpp
 
 ### In-lab ###
-1. Read through the in-lab section of this document.  You should be sure to be familiar with the submission system.
-2. Clone the github repo into your lab account
-3. Complete the in-lab requirements as described in the in-lab section, below.
-4. Be sure to include your name, email ID, the date, and the name of the file in a header comment at the beginning of each file you submit (including text files!)
-5. Did you understand the part on capitalization in the in-lab section of this document?
-6. Files to download: [svtest.cpp](svtest.cpp.html) ([src](svtest.cpp)), [svutil.cpp](svutil.cpp.html) ([src](svutil.cpp)), [svutil.h](svutil.h.html) ([src](svutil.h)), and [lifecycle.cpp](lifecycle.cpp.html) ([src](lifecycle.cpp))
-7. Files to submit: lifecycle.questions.txt, vector.questions.txt, LifeCycle.cpp, LifeCycle.h, and TestLifeCycle.cpp
+
+1. Ensure you are familiar with debugging.  You should look over the [Debugging FAQ from UMich](http://umich.edu/~eecs381/generalFAQ/Debugging.html), which is a good introduction.
+2. Carry out [Tutorial 2: LLDB](../../tutorials/02-lldb/index.html) OR [Tutorial 2: GDB](../../tutorials/02-gdb/index.html) on how to use Unix debuggers.  The debugger is an important tool that you will use extensively throughout the semester to debug your code.  You will need to download the prog1.cpp and debug.cpp files for the tutorial.
+3. In the future, if you have a post-compilation problem with your program (crash, etc.), the TAs will not help you until you have run it through the debugger and learned all that can be learned from this.  So make sure you understand the tutorial!
+4. Submit your debugged version of debug.cpp to inlab2; we are not submitting prog1.cpp.  Remember the standard identifying header information.
+5. Verify to yourself that your methods are working properly with your linked list code using the debugger that you just learned about.  If you have not yet completed your linked list implementation, use the debugger to help you identify the issues/problems with parts of your current implementation.  You should do this by using the simple test cases that you used in the pre-lab.  Consult with a TA if you have questions.
+6. Files to download: [prog1.cpp](../../tutorials/02-lldb/prog1.cpp.html) ([src](../../tutorials/02-lldb/prog1.cpp)), [debug.cpp](../../tutorials/02-lldb/debug.cpp.html) ([src](../../tutorials/02-lldb/debug.cpp))
+7. Files to submit: debug.cpp
 
 ### Post-lab ###
-1. See details in the postlab section, below
-2. For this lab you will be submitting your code electronically. Your submission is due on the Friday of the week of the lab; the exact due time is listed on the [lab due dates](../../uva/labduedates.html) page.  Be sure to include your name, email ID, the date, and the name of the file in a header comment at the beginning of each file you submit (including text files!).
-3. Files to download: [list.h](list.h.html) ([src](list.h)), [list.cpp](list.cpp.html) ([src](list.cpp))
-4. Files to submit: postlab1.question.txt
 
-### Course Tools ###
-Lab submission and in-lab extensions can be found through the Course Tools tab on Collab or directly at this link: [https://libra.cs.virginia.edu/~pedagogy](https://libra.cs.virginia.edu/~pedagogy)
+1. For this lab you will be submitting your code electronically via online grading system to postlab2.  Your fully functional code must contain the following 7 files:
+    1. List.h and List.cpp
+    2. ListNode.h and ListNode.cpp
+    3. ListItr.h and ListItr.cpp
+    4. and the test harness, ListTest.cpp
+2. *Be sure you submit all 7 files!* If you don't, then your code will not compile properly, and you will lose points!
+3. It is due on the Friday of the week of the lab, at the time listed on the [Lab due dates page](../../uva/labduedates.html).  Be sure to include: your name, the date, and the name of the file in a banner comment at the beginning of each file you submit.
+4. Files to download: no additional files beyond the pre-lab and in-lab
+5. Files to submit: ListNode.h/cpp, ListItr.h/cpp, List.h/cpp, ListTest.cpp
 
 ------------------------------------------------------------
 
 Pre-lab
 -------
 
-Complete [Tutorial 1: Introduction to UNIX](../../tutorials/01-intro-unix/index.html). For this course, you will need to be familiar with Emacs.  You are welcome to use any editor that is not an IDE (Integrated Development Environment), such as emacs, nano, or vim; you may be tested on the key bindings of your preferred editor. (Notepad doesn't count.)
+### Code Description ###
 
-Below is a sample function with a `main()` function that calls it.  You may find this example helpful in writing your function to compute *x^n* and the `main()` function to call it.
+Linked lists are described in the online [Readings](../../docs/readings.html).
+
+You will be implementing a doubly linked list, and you will be using "dummy" nodes as well.  You will want two dummy nodes -- **one for the head** and **one for the tail**.  A benefit of doing your implementation using dummy nodes is that there are fewer special cases to check for -- for example you never have to update the head pointer on an insertBefore() or a remove() -- the head pointer always points to the dummy header node.  A dummy tail pointer would help out in the same respect.  The downside is that you use two extra "empty" nodes.
+
+For this lab you will need to implement three classes:
+
+1. ListNode
+2. List
+3. ListItr
+
+For simplicity we will just create a list that holds integers (your code could easily later be templated (i.e. made generic) to allow it to contain objects of other types).  ***You must use the method names listed below in your code.***
+
+Below are the class definitions for each, which should be kept in header files with the respective file names.
+
+### Test Harness ###
+
+We have provided a test harness for testing your whole implementation: [ListTest.cpp](ListTest.cpp.html) ([src](ListTest.cpp)) ***The classes you implement must work with this test harness.***
+
+### UML Diagram ###
+
+Below is a UML diagram showing how these classes interact with each other.
+
+![UML diagram](list-diagram.png)
+
+This diagram shows a list containing two elements, the integers 3 and 7.  Note that there are more methods in the List and ListItr classes than what is shown above.  The head and tail pointers in the List class point to dummy nodes -- they are put there to make inserting elements into the list easier.  It doesn't matter what the value of the dummy notes is set to, as it won't be used.  Each ListNode points to the nodes before and after it (although the dummy nodes each have one pointer pointing to NULL).
+
+Thus, our doubly linked list will have only one List object and many ListNode objects (2 more than the number of elements in the list).  A ListItr is a separate object, which points to one element in the list (possibly a dummy node).  As you call the various methods in ListItr to move the iterator forward and backward, the node that it points to will change.
+
+### ListNode ###
+
+A ListNode contains an integer value, as well as next and previous pointers to other ListNodes.  View the [ListNode.h](ListNode.h.html) ([src](ListNode.h)) code for details.
+
+### List ###
+
+This class represents the list data structure containing ListNodes.  It has a pointer to the first (head) and last (tail) ListNodes of the list, as well as a count of the number of ListNodes in the List.  View the [List.h](List.h.html) ([src](List.h)) code for details.
+
+### Explanations: ###
+
+1. `List()` is the default constructor.  It should initialize all private data members.  Pointers are often initialized to NULL.
+2. `~List()` is the destructor.  It should make the list empty and reclaim the memory allocated in the constructor for head and tail 
+3. `List& operator=(const List& source)` is the **copy assignment operator**.  It is called when code such as the following is encountered: lhs = rhs.  The copy assignment operator that you implement will copy the contents of every ListNode in source into this (the reference to the calling List object itself) 
+4. `List(const List& source)` is the **copy constructor**.  This will create a new list of ListNodes whose contents are the same values as the ListNodes in source.
+5. `bool isEmpty()` This member function returns true if the list is empty, else false 
+6. `void makeEmpty()` removes/reclaims all items from a list, except the dummy head and tail nodes.
+7. `ListItr first()` returns an iterator that points to the ListNode in the first position.  This is the element **after** the head ListNode (even on an empty list!)
+8. `ListItr last()` returns an iterator that points to the ListNode in the last position.  This is the element **before** the tail node (even on an empty list!)
+9. `void insertAfter(int x, ListItr position)` inserts x **after** the current iterator position position.
+10. `void insertBefore(int x, ListItr position)` inserts x **before** the current iterator position position.
+11. `void insertAtTail(int x)` inserts x at tail of list.
+12. `void remove(int x)` removes the first occurrence of x.
+13. `ListItr find(int x)` returns an iterator that points to the first occurrence of x.  When the parameter is not in the list, return a ListItr object, where the current pointer points to the dummy tail node.  This makes sense because you can test the return from find() to see if isPastEnd() is true.
+14. `int size()` returns the number of elements in the list.
+
+In addition, you must implement this non-List member function: void `printList(List& theList, bool forward)` is a **non-member function** that prints a list either forwards (by default -- from head to tail) when forward is true, or backwards (from tail to head) when forward is false.  *You must use your ListItr class to implement this function.*
+
+### Some of the harder methods... ###
+
+The code for the copy constructor and the `operator=()` method in the List class are shown below.  Although we are providing you with this code, you must understand how it works by the end of the lab, as you will have to implement these types of methods on future labs and exams.
 
 ```
-#include <iostream>
-using namespace std;
-
-int foo (int a, int b) {
-    int tmp = a;
-    tmp += b;
-    return tmp;
+List::List(const List& source) {      // Copy Constructor
+    head=new ListNode;
+    tail=new ListNode;
+    head->next=tail;
+    tail->previous=head;
+    count=0;
+    ListItr iter(source.head->next);
+    while (!iter.isPastEnd()) {       // deep copy of the list
+        insertAtTail(iter.retrieve());
+        iter.moveForward();
+    }
 }
 
-int main( ) {
-    int x, y, z;
-    cin >> x;
-    cin >> y;
-    z = foo (x, y);
-    cout << x << " + " << y << " = " << z << endl;
-    return 0;
+List& List::operator=(const List& source) { //Equals operator
+    if (this == &source)
+        return *this;
+    else {
+        makeEmpty();
+        ListItr iter(source.head->next);
+        while (!iter.isPastEnd()) {
+            insertAtTail(iter.retrieve());
+            iter.moveForward();
+        }
+    }
+    return *this;
 }
 ```
 
-For the pre-lab, you will need to write a **recursive** function called `xton()` to compute *x^n* for nonnegative integers *n*.  Assume that *x^0=1*.  Put this function in a program with a `main()` function.  Your program should prompt the user for two integer values, and raise the first to the power of the second by calling your `xton()` function.
+Note that these two methods are correctly implemented.  However, they depend on the other methods working properly.  If you are seeing crashes in these methods, it is likely because some of the other supporting methods are not working properly.  One common issue is to ensure that `makeEmpty()` has `head->next` pointing to tail, and `tail->previous` pointing to head.  If they are causing a crash in your program, then it is likely being caused by one of the methods that they invoke.
 
-The file should be called xToN.cpp, and should be submitted to the pre-lab 1 assignment in the submission system.
+### ListItr ###
 
-Note that your program should take in **exactly two inputs and nothing else**.  We are going to run it through an automated grading script prior to the TAs grading it -- if your program takes in a different number of inputs, you will receive points off.
+Your ListItr should maintain a pointer to a current position in a List.  Your iterator class should look like the class definition in the source code.  See the [ListItr.h](ListItr.h.html) ([src](ListItr.h)) code for details.
 
-Lastly, take a look at the object life-cycle code ([lifecycle.cpp](lifecycle.cpp.html) ([src](lifecycle.cpp))).  Use it as a mechanism for understanding how various aspects of C++ work. Compile and run the program (see part III of the [tutorial](../../tutorials/01-intro-unix/index.html)).  Try stepping through it by hand.  Use the [readings](../../docs/readings.html), the web, and any other C++ references to help you look up parts of the program you do not understand.
+Your ListItr class should implement at least the following public methods:
 
-### Linux in the lab room ###
+- `bool isPastEnd()`: Returns true if the iterator is currently pointing past the end position in the list (i.e., it's pointing to the dummy tail)
+- `bool isPastBeginning()`: Returns true if the iterator is currently pointing past(before) the first position in list (i.e., it's pointing to the dummy head)
+- `void moveForward()`: Advances the current pointer to the next position in the list (unless already past the end of the list)
+- `void moveBackward()`: Move current back to the previous position in the list (unless already past the beginning of the list)
+- `int retrieve()`: Returns the value of the item in the current position of the list
 
-This section describes how to log into Linux in the lab room (either Olsson 001 or Rice 340).  Although this is really part of the in-lab, you won't be able to access this document until you have logged in, which is why the directions are listed in the pre-lab section.
+### Hints ###
 
-The machines in the lab room have two operating systems installed -- Windows and Linux (the Ubuntu distribution).  You have accounts on each, although the passwords will be separate.  You will need to reboot the computer into Linux -- to do this, do a regular reboot from Windows.  Upon the reboot, after the Dell logo screen is shown, a boot loader screen will appear, allowing you to choose which operating system to load.  There are a number of choices, but the one we are interested in is the Ubuntu choice (there are two -- ignore the 'safe mode' version).  You will note that the default selection is Windows -- you will have to use the arrow keys to select the Ubuntu line, and then hit Enter.
+There are a few things that always cause students some headache.  We've tried to explain some of them here, in an effort to lessen the frustration it causes.
 
-Once the login screen appears, you can log in.  Be aware that it may take a full minute to log you into the machine.  Linux has a number of *desktop environments* that one can choose from -- each of these has a different look-and-feel, in the same way that Windows is different from Mac OS X.  We are currently using KDE.  To load up a terminal window, click on the button that looks like the Windows start button, and type in "konsole" into the search box.
+When compiling your code, you must remember to compile all of your .cpp files in one line:
 
-When you are finished, you should log out (from the menu at the top, or you can hit Ctrl-Alt-Backspace), and reboot the computer (through the options menu at the bottom of the login screen).
+```
+clang++ List.cpp ListItr.cpp ListNode.cpp ListTest.cpp
+```
+
+There are ways to compile these programs in pieces, but we will see this later in the semester.
+
+Some students have had problems with the copy constructor and `operator=()` methods defined above -- they would cause a crash (segmentation fault).  The methods above work fine in our solution, but require that all the called functionality work properly as well.  If it is causing a crash in your code, run it through the debugger to see where it crashes -- it's probably a problem with one of your other methods.
+
+To start, create the .cpp file (List.cpp, ListNode.cpp, ListItr.cpp) that just have empty method bodies (with a dummy return value for non-`void` methods), and get that to compile.  Then start implementing one method at a time, testing as you go.
 
 ------------------------------------------------------------
 
 In-lab
 ------
 
-### General In-lab Procedure ###
+These are the same steps from the lab procedure section, above.
 
-The purpose of the labs is to allow you to work through the lab activity, and if you encounter questions or problems, ask for TA assistance.  Note that each file you electronically submit (including text files!) should contain a header containing your name, email ID, file name, and the date.
-
-All of the files required for this lab are listed above (in the Procedure section), and are also listed below.
-
-### Cloning the github repo ###
-
-The first thing you need to do is clone the github repo into your lab account.  To do this, enter:
-
-```
-git clone https://github.com/aaronbloomfield/pdr.git
-```
-
-This will create a 'pdr' directory, which is the copy of the repo.  Each week, you will need to update the repo with the current contents.  To do so, cd into that 'pdr' directory, and enter:
-
-```
-git pull
-```
-
-To view the contents in a web browser, you should enter the following as the URL (replacing 'mst3k' with your userid):
-
-```
-file:///home/mst3k/pdr/README.html
-```
-
-Note that there are three forward slashes there!
-
-We realize that you cannot view these directions until after you have the github repo cloned locally.  So hopefully you read these ahead of time.  Otherwise, the TAs will be able to help you with this part.  The lab can also be viewed online at [http://aaronbloomfield.github.io/pdr/labs/lab01/index.html](http://aaronbloomfield.github.io/pdr/labs/lab01/index.html).
-
-
-### Understanding C++ ###
-
-1. Ask the TAs if you have questions about your *x^n* function.
-2. Ask the TAs if you have questions about using Unix.
-3. Object Lifecycle Program
-     - Download the [lifecycle.cpp](lifecycle.cpp.html) ([src](lifecycle.cpp)) file
-     - Compile with clang++ (i.e., `clang++ lifecycle.cpp`) and execute the program.
-     - Break lifecycle.cpp into multiple files.  It may be helpful to look at [class slides from this repo](../../slides/01-cpp.html).  Compile and run this program.  Note that to compile a C++ program with multiple files, just put them on the same line: `clang++ LifeCycle.cpp TestLifeCycle.cpp` (you usually leave out the .h files when compiling).  Add the descriptive header at the top of the file containing your identifying information, and name them as follows:
-         - LifeCycle.h
-         - LifeCycle.cpp
-         - TestLifeCycle.cpp
-     - Comment out the prototype for `getMaxMyObj()`.  Recompile.  What happens and why?  Talk to TA if you are unsure.  Now un-comment the prototype.
-     - Look at the output of lifecycle.cpp.  Write at least one question about something in this program. Write your questions in a text file named lifecycle.questions.txt.  Remember to include the header comment at the top of the file.
-4. Using C++ vector container class with strings
-     - There are 3 files on this repo that demonstrate the use of multi-file programs and the use of the vector collection class in C++: [svtest.cpp](svtest.cpp.html) ([src](svtest.cpp)), [svutil.cpp](svutil.cpp.html) ([src](svutil.cpp)), and [svutil.h](svutil.h.html) ([src](svutil.h)).  The class in those files is similar to the ArrayList class in the Java standard library (or Java's own Vector class).  Compile the program in Unix and run it.  The command `clang++ svutil.cpp svtest.cpp` will compile the program.
-     - Comment out the `#include <iostream>` preprocessor directive in the file svtest.cpp, and then rebuild the program.  Was there an error?
-     - Now undo what you did in the previous step, but now comment out the `using namespace std;` in svutil.h, and rebuild the program. Was there an error?  What objects are now undeclared and why?
-     - Write at least one question about something in this program.  This question might be about something that you don't understand completely. Write your questions in a file named vector.questions.txt.
-
-### Troubleshooting ###
-
-Does your program not compile?  Here are a few things to try -- these are problems that previous students have encountered.
-
-- You must have `#include <iostream>` at the beginning of each file (well, really each file that uses `cin` and `cout`, but it doesn't hurt to have it at the beginning of each file).
-- Likewise, you will need `using namespace std;` at the beginning of each file.
-- Is your subroutine a method (i.e. part of a class) or a function (i.e. not part of a class)?  Make sure you know which is which!  A method has its name in the form classname::methodname, whereas a function doesn't have a class name or the double-colon.
-- Make sure that your subroutine names (whether they be function names or method names) are consistent between the .h files and the .cpp files
-- Have a compiler error that you don't understand?  We have the translation!  See the [compilation](../../docs/compilation.html) page, which lists common compiler error messages, what they mean, and how to solve them.  If you don't see yours listed there, let us know, and we'll add it.
-
-### Capitalization ###
-
-Under Windows, the case of a file name is ignored -- thus, lifecycle.cpp, LifeCycle.cpp, and LIFECYCLE.CPP all refer to the same file.  However, it is **NOT** true for Linux, which is what we will use to test and grade your code.  Thus, if your file is called 'LifeCycle.h', and you have (in your TestLifeCycle.cpp file) a line that states: `#include "lifecycle.h"`, then your program will NOT work under Linux (since case DOES matter with file names).  Since your code does not compile, you will get zero credit.  So make sure your file names match!
-
-### Assignment submission ###
-
-All assignments will be submitted through our custom submission tool.  These can be accessed through Collab, or directly at the link in the Procedure section of this lab.
-
-Each assignment has 3 dates: an open date (when you can start submitting the assignment), a due date (when it's due), and a close date (the last point that you can submit the assignment).  The dates are listed for the week of the lab (the lab week starts on a Sunday and ends on a Saturday).  In particular, the due date for the pre-labs, as well as the open date for the in-labs and post-labs is when the first lab section starts.  The close date for the post-labs is the start of Friday's lecture (the first lecture, if there are multiple lecture periods).
-
-The various dates: open dates, due dates, and close dates, are listed on the [lab due dates](../../uva/labduedates.html) page.
-
-Please note, however, that there are a number of rules that we will strictly follow:
-
-- Pre-labs are due at the same time for everybody, regardless of your lab section; that time is the beginning of the FIRST Tuesday lab.
-- In-labs are due at the end of your scheduled lab session, regardless of what Collab states.  But see the part about in-lab extensions, below.
-- An in-lab extension (see below for details) will postpone the in-lab due date until 11:59:59 p.m. on Wednesday evening, regardless of your lab section; this allows those who have requested a lab extension to visit the Wednesday evening office hours.
-- In-labs **MUST** be done from the lab in the lab room, or no credit will be given for the **ENTIRE** lab.
-- Any late lab part will receive 25% off (for just that part) for the first 24 hours (or part thereof) that it is late, after which no credit will be given.  Note that a computer program does this deduction -- so if your lab is 1 second late, it still receives 25% off.
-- There is no penalty for in-lab extensions, neither is there a limit to the number of weeks you can use them. The extended in-lab does not need to be completed in the lab room.
-
-The assignments tool does not handle due dates such as "at the end of your lab session" very well -- indeed, the due date is listed as 10 p.m. on Tuesdays.  Note that we have a script that will test the assignment's due date against your lab date, so please be sure to follow the above due dates.
-
-### Lab Extensions ###
-
-You can automatically request a lab extension if you are unable to complete your in-lab during the allotted time.  This is done through the lab extension tool, which is accessible either via Collab or through the link in the Procedure section, above.  Note that this only applies to the in-lab.  The due date with the extension is the end of the day on Wednesday (i.e. 11:59 p.m.), regardless of your lab section, as this gives you a chance to go to the Wednesday evening office hours.
-
-### Submitting your files ###
-
-All assignments for this course will be submitted through the lab submission tool, which is accessible either via Collab or through the link in the Procedure section above.  There is no check to make sure you have submitted all of the correct files -- on the 'Procedure' page (always at the top of the lab document), we clearly state which files should be submitted for each lab part.  For example, for this in-lab, you should submit the following files for in-lab 1: lifecycle.questions.txt, vector.questions.txt, LifeCycle.h, LifeCycle.cpp, and TestLifeCycle.cpp.
-
-Lastly, you should ensure that your program compiles before you submit it.  This is an advanced programming class, and there is no reason why you should submit a program that does not compile.  If you are having problems with your code, you should comment out parts so that it does compile -- you will receive more credit for a compilable program that has part of the code commented out than you would for a program that does not compile.  See the [compilation](../../docs/compilation.html) for hints as to how to get your code to compile.
-
-Just to be clear: **you will receive zero credit for a lab component which does not compile.**
-
-### Resubmitting your assignment ###
-
-If you submit your assignment, and you realize you made a mistake (didn't submit all the files, etc.), you can resubmit your assignment.  The date of submission is the date you re-submitted your assignment -- so if you resubmit your assignment after the due date to add one more file, the **ENTIRE** assignment will have the late submission date.  We only look at the most recent submission.  There is no penalty for a reasonable number of submissions (i.e., if you hit 100 or so, we will think you are hacking our servers).
+1. Carry out [Tutorial 2: LLDB](../../tutorials/02-lldb/index.html) OR [Tutorial 2: GDB](../../tutorials/02-gdb/index.html) on how to use Unix debuggers.  The debugger is an important tool that you will use extensively throughout the semester to debug your code.  You will need to download the prog1.cpp and debug.cpp files for the tutorial.
+2. In the future, if you have a post-compilation problem with your program (crash, etc.), the TAs will not help you until you have run it through the debugger and learned all that can be learned from this.  So make sure you understand the tutorial!
+3. Submit your debugged version of debug.cpp to inlab2; we are not submitting prog1.cpp.  Remember the standard identifying header information.
+4. Verify to yourself that your methods are working properly with your linked list code using the debugger that you just learned about.  If you have not yet completed your linked list implementation, use the debugger to help you identify the issues/problems with parts of your current implementation.  You should do this by using the simple test cases that you used in the pre-lab.  Consult with a TA if you have questions.
+5. Files to download: [prog1.cpp](../../tutorials/02-lldb/prog1.cpp.html) ([src](../../tutorials/02-lldb/prog1.cpp)), [debug.cpp](../../tutorials/02-lldb/debug.cpp.html) ([src](../../tutorials/02-lldb/debug.cpp))
+6. Files to submit: debug.cpp
 
 ------------------------------------------------------------
 
 Post-lab
 --------
 
-Complete the exercise below, and submit the text file described there to the submission system.
+These are the same steps from the lab procedure section, above.
 
-For this lab you will be submitting your assignment electronically.  Your submission is on the Friday of the week of the lab; the exact time is listed on the [lab due dates](../../uva/labduedates.html) page.  Be sure to include your name, email ID, the date, and the name of the file in a banner comment at the beginning of each file you submit.
-
-### Linked List Template code ###
-
-Download the two linked list files ([list.h](list.h.html) ([src](list.h)) and [list.cpp](list.cpp.html) ([src](list.cpp))). Compile and run the program. The compile command is `clang++ list.cpp`.  If you try to compile the list.h file, it won't work correctly.
-
-Look at list.h, which is #include'd from list.cpp -- it contains the **bodies** of the methods, which is not the way that it is usually done (the bodies are typically in the .cpp file only).  We normally only include in .h files just the declarations (i.e., prototypes) of classes, constants, function, etc., but not definitions of C++ methods (i.e. the bodies of the methods). However, when implementing template classes, this is something that is necessary to make the class compile successfully.
-
-Look more closely at list.cpp. The line:
-
-```
-List<int> *l = new List<int>();
-```
-
-declares (a pointer to) a List of integers, called `l`. A similar line, but with a different type, would create a list of something else.  For example, consider the following line:
-
-```
-List<char> list2;
-```
-
-This declares a (non-pointer) list of characters (this is not in the list.cpp file, by the way).  Now all the methods in the List class will be available to both `l` and `list2`.
-
-Write at least one question about something in this program.  Put your question(s) in a text file called "postlab1.question.txt" and submit this to the submission system to the post-lab 1 assignment.
+1. For this lab you will be submitting your code electronically via online grading system to postlab2.  Your fully functional code must contain the following 7 files:
+    1. List.h and List.cpp
+    2. ListNode.h and ListNode.cpp
+    3. ListItr.h and ListItr.cpp
+    4. and the test harness, ListTest.cpp
+2. *Be sure you submit all 7 files!* If you don't, then your code will not compile properly, and you will lose points!
+3. It is due on the Friday of the week of the lab, at the time listed on the [Lab due dates page].  Be sure to include: your name, the date, and the name of the file in a banner comment at the beginning of each file you submit.
+4. Files to download: no additional files beyond the pre-lab and in-lab
+5. Files to submit: ListNode.h/cpp, ListItr.h/cpp, List.h/cpp, ListTest.cpp
